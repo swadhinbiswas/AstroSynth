@@ -1,0 +1,4 @@
+# Binary artifacts are gitignored. This folder holds:
+#   model_{rf,random_forest,xgboost,lightgbm,catboost}.joblib
+#   registry.json  (metrics + best model + timestamp)
+# Run:  make ml-train

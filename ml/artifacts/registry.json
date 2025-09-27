@@ -1,0 +1,56 @@
+{
+  "trained_at": "2026-10-05T10:36:36.969547+00:00",
+  "config": {
+    "seed": 42,
+    "test_size": 0.2,
+    "val_size": 0.1,
+    "target": "disposition",
+    "features": [
+      "orbital_period",
+      "transit_duration",
+      "planet_radius",
+      "stellar_radius",
+      "stellar_mass",
+      "stellar_temp",
+      "transit_depth",
+      "snr",
+      "semi_major_axis",
+      "equilibrium_temp"
+    ],
+    "classes": [
+      "CONFIRMED",
+      "CANDIDATE",
+      "FALSE POSITIVE"
+    ],
+    "optuna_trials": 30,
+    "models": [
+      "random_forest",
+      "xgboost",
+      "lightgbm",
+      "catboost"
+    ],
+    "artifacts_dir": "ml/artifacts"
+  },
+  "metrics": {
+    "random_forest": {
+      "accuracy": 0.9967,
+      "precision": 0.9967,
+      "recall": 0.9967,
+      "f1": 0.9967,
+      "roc_auc": 0.9999
+    }
+  },
+  "best_model": "random_forest",
+  "report": {
+    "metrics": {
+      "random_forest": {
+        "accuracy": 0.9967,
+        "precision": 0.9967,
+        "recall": 0.9967,
+        "f1": 0.9967,
+        "roc_auc": 0.9999
+      }
+    },
+    "best_model": "random_forest"
+  }
+}

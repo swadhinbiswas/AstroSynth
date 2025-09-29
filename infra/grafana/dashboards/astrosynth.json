@@ -1,0 +1,7 @@
+{
+  "title": "AstroSynth Overview",
+  "panels": [
+    {"title": "Requests", "targets": [{"expr": "astrosynth_requests_total"}]},
+    {"title": "Uptime", "targets": [{"expr": "up{job='astrosynth-backend'}"}]}
+  ]
+}

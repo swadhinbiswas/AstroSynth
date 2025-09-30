@@ -165,12 +165,6 @@ graph TB
     SVC --> PG
     SVC --> OBJ
     SVC --> PROM
-
-    style Client fill:#ede9fe,stroke:#7c3aed,color:#2e1065
-    style API fill:#cffafe,stroke:#0891b2,color:#083344
-    style ML fill:#f3e8ff,stroke:#9333ea,color:#3b0764
-    style Data fill:#d1fae5,stroke:#059669,color:#064e3b
-    style Ops fill:#fce7f3,stroke:#db2777,color:#500724
 ```
 
 ### Request flow — `POST /predict`
@@ -212,11 +206,6 @@ graph LR
     A[1 Ingestion] --> B[2 Validation] --> C[3 Cleaning] --> D[4 Features]
     D --> E[5 Split] --> F[6 Optuna] --> G[7 Training]
     G --> H[8 Evaluation] --> I[9 SHAP] --> J[10 Registry] --> K([Deployed])
-
-    style A fill:#ede9fe,stroke:#7c3aed,color:#2e1065
-    style G fill:#f3e8ff,stroke:#9333ea,color:#3b0764
-    style I fill:#cffafe,stroke:#0891b2,color:#083344
-    style K fill:#d1fae5,stroke:#059669,color:#064e3b
 ```
 
 ### Features — physics-aware, not just raw columns

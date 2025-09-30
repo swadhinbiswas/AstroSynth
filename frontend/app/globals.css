@@ -2,9 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---- AstroSynth pixel-perfect base ---- */
 :root { color-scheme: dark; }
-body { font-family: "Space Grotesk", system-ui, sans-serif; background: #030014; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  background: #030014;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
 .font-display { font-family: "Space Grotesk", system-ui, sans-serif; }
-input[type="number"], input[type="text"] { color-scheme: dark; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 8px; }
+
+/* Balanced headlines, tabular telemetry numerals */
+h1, h2, h3 { text-wrap: balance; }
+.tnum, .font-mono { font-variant-numeric: tabular-nums; }
+
+/* Crisp canvases (starfields, 3D) — no blurry scaling */
+canvas { display: block; }
+canvas[data-engine] { image-rendering: auto; }
+
+/* Accessible, consistent focus */
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Themed selection + scrollbar */
+::selection { background: rgba(34, 211, 238, 0.35); color: #fff; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #030014; }
+::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 8px; border: 2px solid #030014; }
+::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
+
+/* Dark, aligned form controls */
+input[type="number"], input[type="text"], input:not([type]) { color-scheme: dark; }
+input[type="number"] { font-variant-numeric: tabular-nums; }
+
+/* Recharts polish: crisp text, no outline jump on click */
+.recharts-wrapper :focus { outline: none; }
+.recharts-cartesian-axis-tick text { font-size: 12px; fill: rgba(255, 255, 255, 0.75); }
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

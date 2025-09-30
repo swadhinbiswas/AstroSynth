@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -6,6 +7,11 @@ import { FEATURE_FIELDS, api } from "@/lib/api";
 import { useAstroStore } from "@/lib/store";
 import { classColor } from "@/lib/utils";
 import { Badge, Button, Card, CardBody } from "@/components/ui/card";
+
+const PlanetPanel = dynamic(() => import("@/components/space/PlanetPanel").then((m) => m.PlanetPanel), {
+  ssr: false,
+  loading: () => <div className="grid h-[360px] place-items-center rounded-2xl bg-black/40 text-sm text-white/40">Initialising 3D renderer…</div>,
+});
 
 export default function PredictPage() {
   const [form, setForm] = useState<Record<string, number>>(
@@ -20,6 +26,7 @@ export default function PredictPage() {
   const probs = result ? Object.entries(result.probabilities).map(([name, value]) => ({ name, value })) : [];
   const shap = result?.explanations?.values ?? [];
   const COLORS: Record<string, string> = { CONFIRMED: "#34d399", CANDIDATE: "#fbbf24", "FALSE POSITIVE": "#fb7185" };
+  const liveClass = (result?.predicted_class ?? "CANDIDATE") as "CONFIRMED" | "CANDIDATE" | "FALSE POSITIVE";
 
   return (
     <div className="py-10">
@@ -50,8 +57,25 @@ export default function PredictPage() {
         </CardBody></Card>
 
         <Card><CardBody>
-          {!result && <p className="text-white/50">No prediction yet. Hit <b>Classify</b> — the demo backend answers in ~100ms.</p>}
-          {result && (
+          <h2 className="text-xs font-bold tracking-widest text-white/50">3D WORLD PREVIEW · LIVE</h2>
+          <div className="mt-3">
+            <PlanetPanel
+              input={{
+                radius: form.planet_radius,
+                temp: form.equilibrium_temp,
+                period: form.orbital_period,
+                disposition: liveClass,
+              }}
+            />
+          </div>
+          <p className="mt-2 text-xs text-white/40">Surface, glow, rings and spin render live from your parameters. Drag to orbit · scroll-proof (zoom locked).</p>
+        </CardBody></Card>
+      </div>
+
+      <Card className="mt-4"><CardBody>
+        {!result && <p className="text-white/50">No prediction yet. Hit <b>Classify</b> — the demo backend answers in ~100ms.</p>}
+        {result && (
+          <div className="grid gap-6 md:grid-cols-2">
             <div>
               <Badge className={classColor(result.predicted_class)}>{result.predicted_class} · {(result.confidence * 100).toFixed(1)}%</Badge>
               <div className="mt-4 h-44">
@@ -64,7 +88,9 @@ export default function PredictPage() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <h3 className="mt-4 font-bold">Why this decision? (SHAP)</h3>
+            </div>
+            <div>
+              <h3 className="font-bold">Why this decision? (SHAP)</h3>
               <div className="mt-2 space-y-1.5">
                 {shap.slice(0, 8).map((s: any) => (
                   <div key={s.feature} className="flex items-center gap-2 text-xs">
@@ -77,9 +103,9 @@ export default function PredictPage() {
                 ))}
               </div>
             </div>
-          )}
-        </CardBody></Card>
-      </div>
+          </div>
+        )}
+      </CardBody></Card>
     </div>
   );
 }

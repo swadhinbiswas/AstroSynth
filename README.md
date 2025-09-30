@@ -33,7 +33,7 @@ Demo login: `demo@astrosynth.space / demo1234` · Try: **Prediction Studio → C
 
 ```
 AstroSynth/
-  frontend/   Next.js 15 + Tailwind + Recharts + Framer Motion + TanStack Query + Zustand
+  frontend/   Next.js 15 + Tailwind + live 3D planet (Three.js/R3F) + Recharts + Framer Motion + TanStack Query + Zustand
   backend/    FastAPI + Pydantic v2 + SQLAlchemy + Alembic + JWT/RBAC + Prometheus
   ml/         ingestion → validation → cleaning → features → train → evaluate → explain → registry
   database/   schema.sql · ER diagram (Mermaid) · seeds · mirrors Alembic 0001

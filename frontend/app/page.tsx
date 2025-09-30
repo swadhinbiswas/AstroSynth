@@ -1,8 +1,14 @@
 "use client";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { SpaceCanvas } from "@/components/space/Starfield";
 import { Card, CardBody, Badge } from "@/components/ui/card";
+
+const PlanetPanel = dynamic(() => import("@/components/space/PlanetPanel").then((m) => m.PlanetPanel), {
+  ssr: false,
+  loading: () => <div className="grid h-[360px] place-items-center rounded-2xl bg-black/40 text-sm text-white/40">Initialising 3D renderer…</div>,
+});
 
 const STATS = [
   { k: "21,460+", v: "Observations indexed" },
@@ -17,12 +23,13 @@ export default function Home() {
       <section className="relative -mx-6 overflow-hidden px-6 pb-16 pt-20">
         <SpaceCanvas />
         <div className="relative">
+        <div className="relative grid items-center gap-10 lg:grid-cols-2">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
             <Badge className="border-cyan-300/30 bg-cyan-400/10 text-cyan-200">NASA SPACE APPS CHALLENGE 2025 · AI / EXOPLANETS</Badge>
-            <h1 className="font-display mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] md:text-7xl">
+            <h1 className="font-display mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight md:text-7xl">
               Hunt for worlds <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">a world away.</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-white/70">
+            <p className="mt-6 max-w-2xl text-balance text-lg text-white/70">
               AstroSynth classifies Kepler, K2 and TESS observations into <b>Confirmed · Candidate · False Positive</b> with
               explainable AI — SHAP attributions, probability distributions and physics-aware features.
             </p>
@@ -31,6 +38,11 @@ export default function Home() {
               <Link href="/missions" className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 font-semibold hover:bg-white/10">Explore Missions</Link>
             </div>
           </motion.div>
+          <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
+            <PlanetPanel input={{ radius: 2.4, temp: 288, period: 365, disposition: "CONFIRMED" }} />
+            <p className="mt-2 text-center text-xs text-white/40">Live 3D render · drag to orbit · a temperate super-Earth</p>
+          </motion.div>
+        </div>
           <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
             {STATS.map((s) => (
               <Card key={s.v}><CardBody><div className="text-3xl font-extrabold text-cyan-200">{s.k}</div><div className="mt-1 text-sm text-white/60">{s.v}</div></CardBody></Card>

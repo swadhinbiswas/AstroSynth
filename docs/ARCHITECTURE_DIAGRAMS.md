@@ -182,36 +182,38 @@ graph TB
         FE["frontend<br/>Next.js :3000"]
         BE["backend<br/>FastAPI :8000"]
         PG[("postgres<br/>:5432")]
-        MI[("minio<br/>:9000")]
         PR["prometheus<br/>:9090"]
         GR["grafana<br/>:3001"]
     end
-    USER["🌍 User browser"] --> FE
+    USER["User browser"] --> FE
     FE --> BE
     BE --> PG
-    BE --> MI
     PR -.scrapes /metrics-prom.-> BE
     GR --> PR
 ```
 
+Postgres is optional at runtime. Without it the API still answers predictions; it logs the
+skipped write once and keeps going.
+
 ## Technology decisions
 
-| Choice | Why |
-|---|---|
-| **FastAPI** | Native async, Pydantic v2 validation, auto OpenAPI docs judges can click |
-| **Artifact-based serving** | Model never trains on request → <300ms p50, fully reproducible |
-| **SHAP with deterministic fallback** | Explanations always available; API never 500s on explainability |
-| **Procedural planet textures** | Zero external assets → works offline, no CDN/licence issues |
-| **14-feature parity train↔serve** | Same `features.py` logic mirrored in `predictor.py`, verified by tests |
-| **PostgreSQL + Alembic** | Schema is reviewable as SQL *and* migration-managed |
-| **Prometheus/Grafana** | Judges can see the ops story, not just the ML story |
+| Choice | Why | Cost |
+|---|---|---|
+| **FastAPI** | Pydantic v2 validation and auto-generated OpenAPI docs | Python-only ecosystem |
+| **Artifact-based serving** | Model never trains on request, so a prediction is reproducible | A model swap needs a restart |
+| **SHAP with a labelled fallback** | Explanations are always present, and the response says which method produced them | Fallback values are approximate, not true Shapley values |
+| **Procedural planet textures** | No external assets, so the 3D view works offline | Less photorealistic than a mapped texture |
+| **14-feature parity train to serve** | The same derivation lives in `ml/src/features.py` and `backend/app/services/predictor.py`; `test_predict_includes_explanations_for_every_feature` fails if they drift | Two copies to keep in sync |
+| **PostgreSQL + Alembic** | The schema is reviewable as SQL and managed as a migration | A migration step before first run |
+| **Prometheus/Grafana** | Operational visibility, not only ML metrics | Another two containers to run |
 
 ## Scaling path
 
 | Today | At scale |
 |---|---|
 | In-memory rate limiter | Redis sliding window |
-| Local `.joblib` artifacts | S3 + MLflow Model Registry (`MLFLOW_TRACKING_URI` already plumbed) |
-| Synthetic training data | Live TAP queries to NASA Exoplanet Archive + caching layer |
-| Synchronous batch predict | Celery/Arq queue with job polling |
-| Single Postgres | Read replicas + partitioned `predictions` by month |
+| Local `.joblib` artifacts | S3 plus MLflow Model Registry |
+| Trained on a downloaded CSV snapshot | Live TAP queries with a caching layer |
+| Synchronous batch predict | A job queue with polling |
+| Single Postgres | Read replicas, and partition `predictions` by month |
+| Startup fallback model | Fail fast when no artifact is present |

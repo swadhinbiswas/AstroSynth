@@ -37,6 +37,9 @@ postgres-data/
 *.db
 *.sqlite
 
+# Data (download with: python ml/scripts/download_nasa.py --out data/raw)
+data/
+
 # OS / IDE
 .DS_Store
 .idea/

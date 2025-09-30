@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query
 
-from app.services.catalog import DATASETS, LEADERBOARD, MISSIONS
+from app.services.catalog import DATASETS, MISSIONS
+from app.services.registry import leaderboard_rows, registry_meta
 
 router = APIRouter(tags=["catalog"])
 
@@ -18,14 +19,24 @@ def list_datasets(mission: str | None = Query(default=None)):
 
 @router.get("/leaderboard")
 def leaderboard():
-    return {"models": sorted(LEADERBOARD, key=lambda m: m["f1"], reverse=True)}
+    rows = leaderboard_rows()
+    return {
+        "models": rows,
+        "meta": registry_meta(),
+        "trained": bool(rows),
+        "note": None
+        if rows
+        else "No training run found. Run `python ml/scripts/train.py --config ml/configs/base.yaml`.",
+    }
 
 
 @router.get("/metrics")
 def metrics():
-    top = max(LEADERBOARD, key=lambda m: m["f1"])
+    rows = leaderboard_rows()
+    best = next((r for r in rows if r.get("is_best")), rows[0] if rows else None)
     return {
-        "active_model": top,
-        "all": LEADERBOARD,
+        "active_model": best,
+        "all": rows,
+        "meta": registry_meta(),
         "prometheus_endpoint": "/metrics-prom",
     }

@@ -1,21 +1,39 @@
-"""Feature engineering: imputation, outlier clipping, derived physics features, scaling metadata."""
+"""Feature engineering: imputation, outlier clipping, derived physics features.
+
+Scaling is not applied: every model here is tree-based and therefore invariant to
+monotonic feature scaling. Add a scaler only if you introduce a linear or
+distance-based baseline.
+"""
+
 import numpy as np
 import pandas as pd
 
 FEATURES = [
-    "orbital_period", "transit_duration", "planet_radius", "stellar_radius",
-    "stellar_mass", "stellar_temp", "transit_depth", "snr",
-    "semi_major_axis", "equilibrium_temp",
+    "orbital_period",
+    "transit_duration",
+    "planet_radius",
+    "stellar_radius",
+    "stellar_mass",
+    "stellar_temp",
+    "transit_depth",
+    "snr",
+    "semi_major_axis",
+    "equilibrium_temp",
 ]
 TARGET = "disposition"
 
 # Plausible physical bounds (clip outliers instead of dropping science data)
 BOUNDS = {
-    "orbital_period": (0.2, 2000), "transit_duration": (0.2, 30),
-    "planet_radius": (0.2, 30), "stellar_radius": (0.1, 10),
-    "stellar_mass": (0.08, 5), "stellar_temp": (2500, 10000),
-    "transit_depth": (1, 100000), "snr": (0.5, 5000),
-    "semi_major_axis": (0.005, 10), "equilibrium_temp": (50, 4000),
+    "orbital_period": (0.2, 2000),
+    "transit_duration": (0.2, 30),
+    "planet_radius": (0.2, 30),
+    "stellar_radius": (0.1, 10),
+    "stellar_mass": (0.08, 5),
+    "stellar_temp": (2500, 10000),
+    "transit_depth": (1, 100000),
+    "snr": (0.5, 5000),
+    "semi_major_axis": (0.005, 10),
+    "equilibrium_temp": (50, 4000),
 }
 
 

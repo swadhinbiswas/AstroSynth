@@ -1,5 +1,12 @@
 """Evaluation: accuracy / precision / recall / F1 / ROC-AUC + leaderboard markdown."""
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
+
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 
 
 def _scores(y_true, y_pred, y_proba):

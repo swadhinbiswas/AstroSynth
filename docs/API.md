@@ -16,7 +16,7 @@ Response: `{predicted_class, confidence, probabilities, explanations{method, val
 
 ## POST /batch-predict
 
-`{"rows": [{...}, ...]}` — max 1000 rows; CSV/JSON/Parquet parsed client-side in Prediction Studio.
+`{"rows": [{...}, ...]}` — max 1000 rows; CSV and JSON are parsed client-side in Prediction Studio.
 
 ## Others
 

@@ -11,10 +11,10 @@ const PlanetPanel = dynamic(() => import("@/components/space/PlanetPanel").then(
 });
 
 const STATS = [
-  { k: "21,460+", v: "Observations indexed" },
-  { k: "94.1%", v: "Best F1 (CatBoost)" },
+  { k: "9,201", v: "KOI observations trained on" },
+  { k: "0.782", v: "Best F1, XGBoost (real data)" },
   { k: "3", v: "Missions · Kepler K2 TESS" },
-  { k: "10", v: "Physics features + SHAP" },
+  { k: "14", v: "Features + SHAP per prediction" },
 ];
 
 export default function Home() {
@@ -53,9 +53,9 @@ export default function Home() {
 
       <section className="grid gap-4 py-10 md:grid-cols-3">
         {[
-          { t: "Prediction Engine", d: "Upload CSV / JSON / Parquet or enter parameters manually. Get class, confidence, probabilities + SHAP waterfall in <300ms.", h: "/predict" },
-          { t: "Explainable AI", d: "Every decision ships with global importance, local attributions and plain-English rationale. No black boxes.", h: "/analytics" },
-          { t: "Research Workspace", d: "Save experiments, compare models, export Markdown reports and share results with your team.", h: "/workspace" },
+          { t: "Prediction Engine", d: "Upload CSV or JSON, or enter parameters manually. Get class, confidence, probabilities and per-feature SHAP values.", h: "/predict" },
+          { t: "Explainable AI", d: "Every prediction ships with global feature importance and local SHAP attributions (TreeExplainer when shap is installed).", h: "/analytics" },
+          { t: "Research Workspace", d: "Predictions from this browser session are kept locally. Add notes and export a Markdown report.", h: "/workspace" },
         ].map((f) => (
           <Card key={f.t}><CardBody>
             <h3 className="text-xl font-bold">{f.t}</h3>

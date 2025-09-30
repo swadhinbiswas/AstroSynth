@@ -1,19 +1,40 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
+from sqlalchemy.orm import Session
 
 from app.core.rate_limit import rate_limit
+from app.core.security import get_current_user
+from app.db.session import get_db
 from app.schemas import BatchPredictRequest, ExoplanetFeatures, PredictResponse
 from app.services.predictor import MODEL_NAME, MODEL_VERSION, predict_proba
 from app.services.shap_service import explain_local
+from app.services.telemetry import record_prediction
 
 router = APIRouter(tags=["prediction"])
 
 
 @router.post("/predict", response_model=PredictResponse)
-def predict(body: ExoplanetFeatures, request: Request):
+def predict(
+    body: ExoplanetFeatures,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
+):
     rate_limit(request)
     feats = body.model_dump()
     pred, conf, proba = predict_proba(feats)
     expl = explain_local(feats)
+
+    record_prediction(
+        db,
+        user_id=None,
+        model_id=None,
+        input_features=feats,
+        predicted_class=pred,
+        confidence=round(conf, 4),
+        probabilities={k: round(float(v), 4) for k, v in proba.items()},
+        explanations=expl,
+    )
+
     return PredictResponse(
         predicted_class=pred,
         confidence=round(conf, 4),
@@ -70,3 +91,12 @@ def model_info():
         ],
         "feature_importance": feature_importance_global(),
     }
+
+
+@router.get("/predictions/stats")
+def prediction_stats(db: Session = Depends(get_db)):
+    """Class distribution of everything served so far. Empty when no DB."""
+    from app.services.telemetry import prediction_counts
+
+    counts = prediction_counts(db)
+    return {"counts": counts, "total": sum(counts.values())}

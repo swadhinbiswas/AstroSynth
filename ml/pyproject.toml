@@ -1,0 +1,9 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+# E,F catch real mistakes. BLE001 is deliberately off: every broad except in
+# this codebase is a documented fail-open path (telemetry, explainability,
+# metric computation) where a crash would be worse than a degraded answer.
+select = ["E", "F", "I"]

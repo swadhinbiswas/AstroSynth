@@ -1,5 +1,17 @@
 {
-  "trained_at": "2026-10-05T10:36:36.969547+00:00",
+  "trained_at": "2026-10-05T12:28:51.368286+00:00",
+  "dataset": {
+    "input": "koi_train.csv",
+    "rows": 9201,
+    "source": "koi_train.csv",
+    "is_synthetic": false,
+    "class_balance": {
+      "FALSE POSITIVE": 4582,
+      "CONFIRMED": 2746,
+      "CANDIDATE": 1873
+    }
+  },
+  "optuna_trials": 30,
   "config": {
     "seed": 42,
     "test_size": 0.2,
@@ -33,24 +45,66 @@
   },
   "metrics": {
     "random_forest": {
-      "accuracy": 0.9967,
-      "precision": 0.9967,
-      "recall": 0.9967,
-      "f1": 0.9967,
-      "roc_auc": 0.9999
+      "accuracy": 0.7637,
+      "precision": 0.7792,
+      "recall": 0.7637,
+      "f1": 0.7686,
+      "roc_auc": 0.9107
+    },
+    "xgboost": {
+      "accuracy": 0.7844,
+      "precision": 0.7804,
+      "recall": 0.7844,
+      "f1": 0.7821,
+      "roc_auc": 0.9195
+    },
+    "lightgbm": {
+      "accuracy": 0.7751,
+      "precision": 0.7776,
+      "recall": 0.7751,
+      "f1": 0.7763,
+      "roc_auc": 0.9143
+    },
+    "catboost": {
+      "accuracy": 0.774,
+      "precision": 0.7885,
+      "recall": 0.774,
+      "f1": 0.7789,
+      "roc_auc": 0.9139
     }
   },
-  "best_model": "random_forest",
+  "best_model": "xgboost",
   "report": {
     "metrics": {
       "random_forest": {
-        "accuracy": 0.9967,
-        "precision": 0.9967,
-        "recall": 0.9967,
-        "f1": 0.9967,
-        "roc_auc": 0.9999
+        "accuracy": 0.7637,
+        "precision": 0.7792,
+        "recall": 0.7637,
+        "f1": 0.7686,
+        "roc_auc": 0.9107
+      },
+      "xgboost": {
+        "accuracy": 0.7844,
+        "precision": 0.7804,
+        "recall": 0.7844,
+        "f1": 0.7821,
+        "roc_auc": 0.9195
+      },
+      "lightgbm": {
+        "accuracy": 0.7751,
+        "precision": 0.7776,
+        "recall": 0.7751,
+        "f1": 0.7763,
+        "roc_auc": 0.9143
+      },
+      "catboost": {
+        "accuracy": 0.774,
+        "precision": 0.7885,
+        "recall": 0.774,
+        "f1": 0.7789,
+        "roc_auc": 0.9139
       }
     },
-    "best_model": "random_forest"
+    "best_model": "xgboost"
   }
 }

@@ -166,11 +166,11 @@ graph TB
     SVC --> OBJ
     SVC --> PROM
 
-    style Client fill:#1e1b4b,stroke:#6d28d9,color:#fff
-    style API fill:#0f172a,stroke:#22d3ee,color:#fff
-    style ML fill:#2e1065,stroke:#a855f7,color:#fff
-    style Data fill:#042f2e,stroke:#34d399,color:#fff
-    style Ops fill:#3b0764,stroke:#f472b6,color:#fff
+    style Client fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    style API fill:#cffafe,stroke:#0891b2,color:#083344
+    style ML fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    style Data fill:#d1fae5,stroke:#059669,color:#064e3b
+    style Ops fill:#fce7f3,stroke:#db2777,color:#500724
 ```
 
 ### Request flow — `POST /predict`
@@ -213,10 +213,10 @@ graph LR
     D --> E[5 Split] --> F[6 Optuna] --> G[7 Training]
     G --> H[8 Evaluation] --> I[9 SHAP] --> J[10 Registry] --> K([Deployed])
 
-    style A fill:#1e1b4b,stroke:#6d28d9,color:#fff
-    style G fill:#1e1b4b,stroke:#a855f7,color:#fff
-    style I fill:#1e1b4b,stroke:#22d3ee,color:#fff
-    style K fill:#064e3b,stroke:#34d399,color:#fff
+    style A fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    style G fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    style I fill:#cffafe,stroke:#0891b2,color:#083344
+    style K fill:#d1fae5,stroke:#059669,color:#064e3b
 ```
 
 ### Features — physics-aware, not just raw columns

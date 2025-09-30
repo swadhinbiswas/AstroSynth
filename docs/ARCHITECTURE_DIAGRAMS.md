@@ -88,10 +88,10 @@ graph LR
     I --> J["10 · Registry<br/>artifacts + metrics<br/>versioned"]
     J --> K["Deployment<br/>FastAPI serves artifact"]
 
-    style A fill:#1e1b4b,stroke:#6d28d9,color:#fff
-    style G fill:#1e1b4b,stroke:#a855f7,color:#fff
-    style I fill:#1e1b4b,stroke:#22d3ee,color:#fff
-    style K fill:#064e3b,stroke:#34d399,color:#fff
+    style A fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    style G fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    style I fill:#cffafe,stroke:#0891b2,color:#083344
+    style K fill:#d1fae5,stroke:#059669,color:#064e3b
 ```
 
 ## Feature engineering — 10 base + 4 derived

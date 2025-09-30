@@ -39,7 +39,7 @@ export default function Home() {
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
-            <PlanetPanel input={{ radius: 2.4, temp: 288, period: 365, disposition: "CONFIRMED" }} />
+            <PlanetPanel input={{ radius: 1.6, temp: 288, period: 365, disposition: "CONFIRMED" }} />
             <p className="mt-2 text-center text-xs text-white/40">Live 3D render · drag to orbit · a temperate super-Earth</p>
           </motion.div>
         </div>
